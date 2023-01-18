@@ -9,12 +9,15 @@
 /* Begin PBXBuildFile section */
 		D77034892976E35F00372BC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77034882976E35F00372BC7 /* AppDelegate.swift */; };
 		D770348B2976E35F00372BC7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D770348A2976E35F00372BC7 /* SceneDelegate.swift */; };
-		D770348D2976E35F00372BC7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D770348C2976E35F00372BC7 /* ViewController.swift */; };
+		D770348D2976E35F00372BC7 /* NewsFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D770348C2976E35F00372BC7 /* NewsFeedViewController.swift */; };
 		D77034922976E36200372BC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D77034912976E36200372BC7 /* Assets.xcassets */; };
 		D77034952976E36200372BC7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D77034932976E36200372BC7 /* LaunchScreen.storyboard */; };
 		D77034A02976E36200372BC7 /* AutodocTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D770349F2976E36200372BC7 /* AutodocTests.swift */; };
 		D77034AA2976E36300372BC7 /* AutodocUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77034A92976E36300372BC7 /* AutodocUITests.swift */; };
 		D77034AC2976E36300372BC7 /* AutodocUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77034AB2976E36300372BC7 /* AutodocUITestsLaunchTests.swift */; };
+		D77034C02976FFD100372BC7 /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77034BE2976FFD100372BC7 /* NewsCell.swift */; };
+		D77034C12976FFD100372BC7 /* NewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D77034BF2976FFD100372BC7 /* NewsCell.xib */; };
+		D77034C329770C9100372BC7 /* NewsFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77034C229770C9100372BC7 /* NewsFeedViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +41,7 @@
 		D77034852976E35F00372BC7 /* Autodoc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Autodoc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D77034882976E35F00372BC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D770348A2976E35F00372BC7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D770348C2976E35F00372BC7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D770348C2976E35F00372BC7 /* NewsFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedViewController.swift; sourceTree = "<group>"; };
 		D77034912976E36200372BC7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D77034942976E36200372BC7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D77034962976E36200372BC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -47,6 +50,9 @@
 		D77034A52976E36300372BC7 /* AutodocUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AutodocUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D77034A92976E36300372BC7 /* AutodocUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutodocUITests.swift; sourceTree = "<group>"; };
 		D77034AB2976E36300372BC7 /* AutodocUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutodocUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D77034BE2976FFD100372BC7 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
+		D77034BF2976FFD100372BC7 /* NewsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCell.xib; sourceTree = "<group>"; };
+		D77034C229770C9100372BC7 /* NewsFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,9 +103,10 @@
 		D77034872976E35F00372BC7 /* Autodoc */ = {
 			isa = PBXGroup;
 			children = (
+				D77034B82976EFFD00372BC7 /* NewsFeed */,
 				D77034882976E35F00372BC7 /* AppDelegate.swift */,
 				D770348A2976E35F00372BC7 /* SceneDelegate.swift */,
-				D770348C2976E35F00372BC7 /* ViewController.swift */,
+				D770348C2976E35F00372BC7 /* NewsFeedViewController.swift */,
 				D77034912976E36200372BC7 /* Assets.xcassets */,
 				D77034932976E36200372BC7 /* LaunchScreen.storyboard */,
 				D77034962976E36200372BC7 /* Info.plist */,
@@ -122,6 +129,24 @@
 				D77034AB2976E36300372BC7 /* AutodocUITestsLaunchTests.swift */,
 			);
 			path = AutodocUITests;
+			sourceTree = "<group>";
+		};
+		D77034B82976EFFD00372BC7 /* NewsFeed */ = {
+			isa = PBXGroup;
+			children = (
+				D77034BD2976FFA900372BC7 /* NewsFeedCell */,
+				D77034C229770C9100372BC7 /* NewsFeedViewModel.swift */,
+			);
+			path = NewsFeed;
+			sourceTree = "<group>";
+		};
+		D77034BD2976FFA900372BC7 /* NewsFeedCell */ = {
+			isa = PBXGroup;
+			children = (
+				D77034BE2976FFD100372BC7 /* NewsCell.swift */,
+				D77034BF2976FFD100372BC7 /* NewsCell.xib */,
+			);
+			path = NewsFeedCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,6 +255,7 @@
 			files = (
 				D77034952976E36200372BC7 /* LaunchScreen.storyboard in Resources */,
 				D77034922976E36200372BC7 /* Assets.xcassets in Resources */,
+				D77034C12976FFD100372BC7 /* NewsCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,7 +280,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D770348D2976E35F00372BC7 /* ViewController.swift in Sources */,
+				D77034C02976FFD100372BC7 /* NewsCell.swift in Sources */,
+				D77034C329770C9100372BC7 /* NewsFeedViewModel.swift in Sources */,
+				D770348D2976E35F00372BC7 /* NewsFeedViewController.swift in Sources */,
 				D77034892976E35F00372BC7 /* AppDelegate.swift in Sources */,
 				D770348B2976E35F00372BC7 /* SceneDelegate.swift in Sources */,
 			);
