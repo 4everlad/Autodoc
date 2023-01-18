@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class NewsFeedViewController: UIViewController {
     
@@ -13,20 +14,23 @@ class NewsFeedViewController: UIViewController {
         case main
     }
     
-    var dataSource: UICollectionViewDiffableDataSource<Section, String>!
+    var dataSource: UICollectionViewDiffableDataSource<Section, NewsItemJSON>!
     var collectionView: UICollectionView!
     
     private let spacing: CGFloat = 20
     
-    var viewModel: NewsFeedViewModel = .init()
+    private var viewModel: NewsFeedViewModel = .init()
+    private var feedSubscriber: AnyCancellable!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         configureHierarchy()
         configureDataSource()
+        setSubscriber()
         setupViews()
-        view.backgroundColor = .red
+        
+        viewModel.getNews()
     }
     
 }
@@ -61,20 +65,36 @@ private extension NewsFeedViewController {
     }
     
     private func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, String>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: String) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<Section, NewsItemJSON>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: NewsItemJSON) -> UICollectionViewCell? in
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCell.reuseIdentifier, for: indexPath) as? NewsCell else { fatalError("Cannot create the cell") }
             
-            cell.titleLabel.text = "\(identifier)"
+            cell.titleLabel.text = "\(identifier.title)"
             
             return cell
         }
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, String>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, NewsItemJSON>()
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.newsFeed)
         dataSource.apply(snapshot, animatingDifferences: false)
+        
+    }
+    
+    private func setSubscriber() {
+        feedSubscriber = viewModel.$newsFeed
+           .receive(on: DispatchQueue.main)
+           .sink { [weak self] _ in
+              self?.updateUI()
+           }
+    }
+    
+    private func updateUI() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, NewsItemJSON>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(viewModel.newsFeed)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
