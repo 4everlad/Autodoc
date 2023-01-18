@@ -16,6 +16,8 @@ class NewsFeedViewController: UIViewController {
     var dataSource: UICollectionViewDiffableDataSource<Section, String>!
     var collectionView: UICollectionView!
     
+    private let spacing: CGFloat = 20
+    
     var viewModel: NewsFeedViewModel = .init()
     
     override func viewDidLoad() {
@@ -36,10 +38,11 @@ private extension NewsFeedViewController {
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = .init(top: CGFloat(spacing), leading: spacing, bottom: spacing, trailing: spacing)
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(44))
+            heightDimension: .fractionalWidth(2/3))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
