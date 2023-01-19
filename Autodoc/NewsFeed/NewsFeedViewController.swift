@@ -16,18 +16,21 @@ class NewsFeedViewController: UIViewController {
     
     var dataSource: UICollectionViewDiffableDataSource<Section, NewsItemJSON>!
     var collectionView: UICollectionView!
+    var spinnerView: InfiniteScrollActivityView!
     
     private let spacing: CGFloat = 20
     
     private var viewModel: NewsFeedViewModel = .init()
     private var feedSubscriber: AnyCancellable!
+    private var spinnerSubscriber: AnyCancellable!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         configureHierarchy()
         configureDataSource()
-        setSubscriber()
+        setupSpinnerView()
+        setSubscribers()
         setupViews()
         
         viewModel.getNews()
@@ -79,11 +82,11 @@ private extension NewsFeedViewController {
         updateUI()
     }
     
-    private func setSubscriber() {
+    private func setSubscribers() {
         feedSubscriber = viewModel.$newsFeed
            .receive(on: DispatchQueue.main)
            .sink { [weak self] _ in
-              self?.updateUI()
+               self?.updateUI()
            }
     }
     
@@ -104,6 +107,21 @@ private extension NewsFeedViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    func setupSpinnerView() {
+        // Set up Infinite Scroll loading indicator
+        let frame = CGRect(x: 0,
+                           y: collectionView.contentSize.height,
+                           width: collectionView.bounds.size.width,
+                           height: InfiniteScrollActivityView.defaultHeight)
+        spinnerView = InfiniteScrollActivityView(frame: frame)
+        spinnerView.isHidden = true
+        collectionView.addSubview(spinnerView)
+        
+        var insets = collectionView.contentInset
+        insets.bottom += InfiniteScrollActivityView.defaultHeight
+        collectionView.contentInset = insets
+    }
 }
 
 extension NewsFeedViewController: UICollectionViewDelegate {
@@ -112,7 +130,19 @@ extension NewsFeedViewController: UICollectionViewDelegate {
         let isItemLast = viewModel.newsFeed.isLast(item)
         
         if isItemLast && viewModel.canLoad {
-            viewModel.getNews()
+            
+            let frame = CGRect(x: 0,
+                               y: collectionView.contentSize.height,
+                               width: collectionView.bounds.size.width,
+                               height: InfiniteScrollActivityView.defaultHeight)
+            
+            spinnerView.frame = frame
+            spinnerView.startAnimating()
+            
+            // TODO: - check if not weak
+            viewModel.getNews { [weak self] in
+                self?.spinnerView.stopAnimating()
+            }
         }
     }
 }

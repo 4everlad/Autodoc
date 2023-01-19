@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 class NewsFeedViewModel: ObservableObject {
     private let networkClient = NetworkClient()
@@ -17,7 +18,7 @@ class NewsFeedViewModel: ObservableObject {
     private(set) var page: Int = 1
     private(set) var totalNewsItems: Int = .max
     
-    func getNews() {
+    func getNews(completion: (() -> Void)? = nil) {
         
         guard newsFeed.count <= totalNewsItems else { return }
         guard canLoad == true else { return }
@@ -25,10 +26,15 @@ class NewsFeedViewModel: ObservableObject {
         Task {
             do {
                 
-                canLoad = false
+                self.canLoad = false
+                
                 let result = await networkClient.getNewsFeedAsync(pageCount: page, newsCount: pageNewsCount)
                 
-                guard let feed = result else { return }
+                guard let feed = result else {
+                    self.canLoad = true
+                    completion?()
+                    return
+                }
                 
                 DispatchQueue.main.async {
                     self.newsFeed.append(contentsOf: feed.news)
@@ -36,13 +42,14 @@ class NewsFeedViewModel: ObservableObject {
                 
                 page += 1
                 totalNewsItems = feed.totalCount
-                canLoad = true
+                self.canLoad = true
+                completion?()
                 
             } catch {
                 print("async get news error")
+                completion?()
             }
         }
-        
         
     }
     

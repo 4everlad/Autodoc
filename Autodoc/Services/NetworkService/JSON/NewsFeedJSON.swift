@@ -36,7 +36,6 @@ struct NewsItemJSON: Codable, Hashable, Identifiable {
              categoryType
     }
     
-    
 }
 
 struct NewsFeedJSON: Codable {
