@@ -61,6 +61,7 @@ private extension NewsFeedViewController {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         let nib = UINib(nibName: NewsCell.reuseIdentifier, bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: NewsCell.reuseIdentifier)
+        collectionView.delegate = self
         view.addSubview(collectionView)
     }
     
@@ -75,11 +76,7 @@ private extension NewsFeedViewController {
             return cell
         }
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, NewsItemJSON>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(viewModel.newsFeed)
-        dataSource.apply(snapshot, animatingDifferences: false)
-        
+        updateUI()
     }
     
     private func setSubscriber() {
@@ -106,6 +103,17 @@ private extension NewsFeedViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+}
+
+extension NewsFeedViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let item = viewModel.newsFeed[indexPath.row]
+        let isItemLast = viewModel.newsFeed.isLast(item)
+        
+        if isItemLast && viewModel.canLoad {
+            viewModel.getNews()
+        }
     }
 }
 

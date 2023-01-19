@@ -69,18 +69,18 @@ class NetworkClient {
     }
 }
 
-class CustomError : Error {
-    var message: String = ""
-    
-    init(message: String) {
-        self.message = message
-    }
-}
-
 class NetworkConfiguration {
     private let apiUrl = "https://webapi.autodoc.ru/api/"
     
     func getBaseUrl() -> String {
         return apiUrl
+    }
+}
+
+class CustomError : Error {
+    var message: String = ""
+    
+    init(message: String) {
+        self.message = message
     }
 }

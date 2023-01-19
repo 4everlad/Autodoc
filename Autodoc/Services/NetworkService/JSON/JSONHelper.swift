@@ -9,6 +9,7 @@ import Foundation
 
 class JsonHelper {
     static let shared = JsonHelper()
+    
     private lazy var decoder: JSONDecoder = {
        let decoder = JSONDecoder()
         return decoder

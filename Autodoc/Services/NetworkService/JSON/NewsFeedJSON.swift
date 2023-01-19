@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct NewsItemJSON: Codable, Hashable {
+struct NewsItemJSON: Codable, Hashable, Identifiable {
     let id: Int
     let title: String
     let description: String
@@ -16,6 +16,14 @@ struct NewsItemJSON: Codable, Hashable {
     let fullUrl: String
     let titleImageUrl: String?
     let categoryType: String
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (lhs: NewsItemJSON, rhs: NewsItemJSON) -> Bool {
+        return lhs.id == rhs.id
+    }
     
     enum CodingKeys: String, CodingKey {
         case id,
@@ -27,6 +35,8 @@ struct NewsItemJSON: Codable, Hashable {
              titleImageUrl = "titleImageUrl",
              categoryType
     }
+    
+    
 }
 
 struct NewsFeedJSON: Codable {

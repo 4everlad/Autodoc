@@ -8,25 +8,36 @@
 import Foundation
 
 class NewsFeedViewModel: ObservableObject {
+    private let networkClient = NetworkClient()
     
     @Published private(set) var newsFeed: [NewsItemJSON] = []
+    var canLoad = true
     
     private(set) var pageNewsCount: Int = 15
-    private(set) var pageCount: Int = 1
-    
-    private let networkClient = NetworkClient()
+    private(set) var page: Int = 1
+    private(set) var totalNewsItems: Int = .max
     
     func getNews() {
         
+        guard newsFeed.count <= totalNewsItems else { return }
+        guard canLoad == true else { return }
+        
         Task {
             do {
-                let result = await networkClient.getNewsFeedAsync(pageCount: pageCount, newsCount: pageNewsCount)
                 
-                guard let news = result else { return }
+                canLoad = false
+                let result = await networkClient.getNewsFeedAsync(pageCount: page, newsCount: pageNewsCount)
+                
+                guard let feed = result else { return }
                 
                 DispatchQueue.main.async {
-                    self.newsFeed.append(contentsOf: news)
+                    self.newsFeed.append(contentsOf: feed.news)
                 }
+                
+                page += 1
+                totalNewsItems = feed.totalCount
+                canLoad = true
+                
             } catch {
                 print("async get news error")
             }
