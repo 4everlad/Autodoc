@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -17,6 +18,9 @@
                 <rect key="frame" x="0.0" y="0.0" width="178" height="99"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YwZ-Ic-JcP" customClass="AsyncImageView" customModule="Autodoc" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="178" height="99"/>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hBF-WC-vuK">
                         <rect key="frame" x="12" y="66" width="154" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -28,12 +32,17 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <color key="backgroundColor" systemColor="systemYellowColor"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="YwZ-Ic-JcP" secondAttribute="trailing" id="52g-Kn-av3"/>
                 <constraint firstItem="hBF-WC-vuK" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="12" id="Cph-D2-ke7"/>
                 <constraint firstAttribute="trailing" secondItem="hBF-WC-vuK" secondAttribute="trailing" constant="12" id="Odb-7s-Wts"/>
+                <constraint firstItem="YwZ-Ic-JcP" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Oo5-1y-L1t"/>
                 <constraint firstAttribute="bottom" secondItem="hBF-WC-vuK" secondAttribute="bottom" constant="12" id="g1Z-Nl-W9n"/>
+                <constraint firstItem="YwZ-Ic-JcP" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="und-Ee-9pG"/>
+                <constraint firstAttribute="bottom" secondItem="YwZ-Ic-JcP" secondAttribute="bottom" id="yDN-dX-s53"/>
             </constraints>
             <size key="customSize" width="178" height="99"/>
             <connections>
+                <outlet property="poster" destination="YwZ-Ic-JcP" id="HH4-UG-vcU"/>
                 <outlet property="titleLabel" destination="hBF-WC-vuK" id="b12-yK-zya"/>
             </connections>
             <point key="canvasLocation" x="230.43478260869566" y="104.12946428571428"/>

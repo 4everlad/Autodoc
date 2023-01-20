@@ -74,8 +74,12 @@ private extension NewsFeedViewController {
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCell.reuseIdentifier, for: indexPath) as? NewsCell else { fatalError("Cannot create the cell") }
             
+            // TODO: - refactoring, put it in cell
             cell.titleLabel.text = "\(identifier.title)"
-            
+            if let url = identifier.titleImageUrl, let newUrl = URL(string: url) {
+                cell.poster.loadImage(newUrl)
+            }
+                             
             return cell
         }
         
