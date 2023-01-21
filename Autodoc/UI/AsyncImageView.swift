@@ -15,9 +15,15 @@ public class AsyncImageView: UIImageView {
     }
     
     public func loadImage(_ url: URL) {
-        loadingService.loadImage(url: url) { [weak self] data in
-            guard let data = data else { return }
-            self?.image = UIImage(data: data as Data)
+        Task {
+            do {
+                let result = try await loadingService.loadImage(url: url)
+                guard let data = result else { return }
+                self.image = UIImage(data: data as Data)
+            }
+            catch {
+                print("async load image error")
+            }
         }
     }
     
@@ -28,20 +34,20 @@ public class AsyncImageView: UIImageView {
 
 final class ImageLoadingService {
     private let session = URLSession(configuration: .default)
-    private var dataTask: URLSessionDataTask?
+    private var dataTask: Task<Data, Error>?
     
-    func loadImage(url: URL, completion: @escaping (Data?) -> Void) {
+    func loadImage(url: URL) async throws -> Data? {
         let newUrl = url as NSURL
         if let data = Cache.images.object(forKey: newUrl) {
-            completion(data as Data)
+            return data as Data
         } else {
-            let request = URLRequest(url: url as URL)
-            dataTask = session.dataTask(with: request) { data, _, _ in
-                guard let data = data else { return }
+            dataTask = Task {
+                let(data, _) = try await session.data(from: url, delegate: nil)
                 Cache.images.setObject(data as NSData, forKey: url as NSURL)
-                DispatchQueue.main.async { completion(data) }
+                return data
             }
-            dataTask?.resume()
+            
+            return try await dataTask?.value
         }
     }
     

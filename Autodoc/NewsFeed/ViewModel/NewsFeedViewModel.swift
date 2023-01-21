@@ -23,7 +23,7 @@ class NewsFeedViewModel: ObservableObject {
         guard newsFeed.count <= totalNewsItems else { return }
         guard canLoad == true else { return }
         
-        Task {
+        Task() {
             do {
                 
                 self.canLoad = false
