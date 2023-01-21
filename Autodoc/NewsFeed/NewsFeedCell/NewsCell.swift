@@ -15,6 +15,18 @@ class NewsCell: UICollectionViewCell {
 //    private var animator: UIViewPropertyAnimator?
     
     static let reuseIdentifier = "NewsCell"
+    
+    override var isHighlighted: Bool {
+        didSet {
+            animateOnHighlight(isHiglighted: isHighlighted)
+        }
+    }
+    
+    override var isSelected: Bool {
+        didSet {
+            animateOnSelect(isSeleted: isSelected)
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,10 +35,19 @@ class NewsCell: UICollectionViewCell {
     
     override public func prepareForReuse() {
         super.prepareForReuse()
-//        poster.image = nil
-//        poster.alpha = 0.0
-//        animator?.stopAnimation(true)
         poster.cancelLoading()
     }
-
+    
+    func animateOnHighlight(isHiglighted: Bool) {
+        UIView.animate(withDuration: 0.3, delay: 0, options: .beginFromCurrentState, animations: {
+            self.transform = self.isHighlighted ? CGAffineTransform(scaleX: 0.90, y: 0.90) : .identity
+        })
+    }
+    
+    func animateOnSelect(isSeleted: Bool) {
+        UIView.animate(withDuration: 0.3, delay: 0, options: .beginFromCurrentState, animations: {
+            self.alpha = self.isSelected ? 0.5 : 1
+        })
+    }
+    
 }
