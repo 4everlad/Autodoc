@@ -13,7 +13,7 @@ class NewsFeedViewModel: ObservableObject {
     weak var coordinator : AppCoordinator?
     private let networkClient = NetworkClient()
     
-    @Published private(set) var newsFeed: [NewsItemJSON] = []
+    @Published private(set) var newsFeed: [NewsItem] = []
     var canLoad = true
     
     private(set) var pageNewsCount: Int = 15
@@ -42,8 +42,13 @@ class NewsFeedViewModel: ObservableObject {
                     return
                 }
                 
+                let newsItems: [NewsItem] = feed.news.compactMap {
+                    let survey = NewsItem(with: $0)
+                    return survey
+                }
+                
                 DispatchQueue.main.async {
-                    self.newsFeed.append(contentsOf: feed.news)
+                    self.newsFeed.append(contentsOf: newsItems)
                 }
                 
                 page += 1
@@ -59,7 +64,7 @@ class NewsFeedViewModel: ObservableObject {
         
     }
     
-    func showNews(with news: NewsItemJSON) {
+    func showNews(with news: NewsItem) {
         coordinator?.showNews(with: news)
     }
     

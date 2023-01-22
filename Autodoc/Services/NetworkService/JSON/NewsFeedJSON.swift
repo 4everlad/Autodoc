@@ -17,14 +17,6 @@ struct NewsItemJSON: Codable, Hashable, Identifiable {
     let titleImageUrl: String?
     let categoryType: String
     
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
-    static func == (lhs: NewsItemJSON, rhs: NewsItemJSON) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
     enum CodingKeys: String, CodingKey {
         case id,
              title,

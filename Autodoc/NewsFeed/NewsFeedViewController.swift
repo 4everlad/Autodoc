@@ -14,7 +14,7 @@ class NewsFeedViewController: UIViewController {
         case main
     }
     
-    var dataSource: UICollectionViewDiffableDataSource<Section, NewsItemJSON>!
+    var dataSource: UICollectionViewDiffableDataSource<Section, NewsItem>!
     var collectionView: UICollectionView!
     var spinnerView: InfiniteScrollActivityView!
     
@@ -86,8 +86,8 @@ private extension NewsFeedViewController {
     }
     
     private func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, NewsItemJSON>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: NewsItemJSON) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<Section, NewsItem>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: NewsItem) -> UICollectionViewCell? in
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCell.reuseIdentifier, for: indexPath) as? NewsCell else { fatalError("Cannot create the cell") }
             
@@ -109,7 +109,7 @@ private extension NewsFeedViewController {
     
     private func updateUI() {
         guard let viewModel = viewModel else { return }
-        var snapshot = NSDiffableDataSourceSnapshot<Section, NewsItemJSON>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, NewsItem>()
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.newsFeed)
         dataSource.apply(snapshot, animatingDifferences: true)

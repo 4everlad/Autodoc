@@ -21,7 +21,7 @@ final class NewsCell: SelectableCell {
         // Initialization code
     }
     
-    func set(with news: NewsItemJSON) {
+    func set(with news: NewsItem) {
         titleLabel.text = news.title
         imageView.isHidden = true
         noImageView.isHidden = false
