@@ -10,12 +10,6 @@ import UIKit
 public class AsyncImageView: UIImageView {
     private let loadingService = ImageLoadingService()
     
-    public override var image: UIImage? {
-        didSet {
-            super.image = image
-        }
-    }
-    
     deinit {
         self.cancelLoading()
     }

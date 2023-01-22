@@ -49,8 +49,8 @@
             </constraints>
             <size key="customSize" width="178" height="99"/>
             <connections>
+                <outlet property="imageView" destination="YwZ-Ic-JcP" id="HH4-UG-vcU"/>
                 <outlet property="noImageView" destination="vVr-KH-qQ1" id="hp7-L4-Hwr"/>
-                <outlet property="poster" destination="YwZ-Ic-JcP" id="HH4-UG-vcU"/>
                 <outlet property="titleLabel" destination="hBF-WC-vuK" id="b12-yK-zya"/>
             </connections>
             <point key="canvasLocation" x="230.43478260869566" y="104.12946428571428"/>

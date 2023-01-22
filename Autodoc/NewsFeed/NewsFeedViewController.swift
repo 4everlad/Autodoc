@@ -81,7 +81,6 @@ private extension NewsFeedViewController {
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCell.reuseIdentifier, for: indexPath) as? NewsCell else { fatalError("Cannot create the cell") }
             
-            // TODO: - refactoring, put it in cell
             cell.set(with: identifier)
                              
             return cell

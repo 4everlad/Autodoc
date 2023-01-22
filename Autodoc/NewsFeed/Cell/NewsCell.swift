@@ -11,9 +11,8 @@ import Combine
 final class NewsCell: SelectableCell {
     
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var poster: AsyncImageView!
+    @IBOutlet weak var imageView: AsyncImageView!
     @IBOutlet weak var noImageView: NoImageView!
-    
     
     static let reuseIdentifier = "NewsCell"
 
@@ -24,24 +23,26 @@ final class NewsCell: SelectableCell {
     
     func set(with news: NewsItemJSON) {
         titleLabel.text = news.title
-        poster.isHidden = true
+        imageView.isHidden = true
         noImageView.isHidden = false
-        if let url = news.titleImageUrl, let newUrl = URL(string: url) {
-            poster.loadImage(newUrl) { [weak self] result in
-                self?.poster.isHidden = result ? false : true
-                self?.noImageView.isHidden = result ? true : false
-            }
-            
-//            poster.loadImageASync(newUrl)
+        
+        guard let url = news.titleImageUrl, let newUrl = URL(string: url) else {
+            return
+        }
+        
+        imageView.loadImage(newUrl) { [weak self] result in
+            self?.setImageVisibility(isDownloaded: result)
         }
     }
     
-    func setImage() {
-        
+    func setImageVisibility(isDownloaded: Bool) {
+        noImageView.isHidden = isDownloaded ? true : false
+        imageView.isHidden = isDownloaded ? false : true
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        poster.cancelLoading()
+        imageView.cancelLoading()
+        imageView.image = nil
     }
 }
