@@ -9,6 +9,8 @@ import Foundation
 import Combine
 
 class NewsFeedViewModel: ObservableObject {
+    
+    weak var coordinator : AppCoordinator?
     private let networkClient = NetworkClient()
     
     @Published private(set) var newsFeed: [NewsItemJSON] = []
@@ -17,6 +19,10 @@ class NewsFeedViewModel: ObservableObject {
     private(set) var pageNewsCount: Int = 15
     private(set) var page: Int = 1
     private(set) var totalNewsItems: Int = .max
+    
+    init() {
+        getNews(completion: nil)
+    }
     
     func getNews(completion: (() -> Void)? = nil) {
         
@@ -51,6 +57,10 @@ class NewsFeedViewModel: ObservableObject {
             }
         }
         
+    }
+    
+    func showNews(with news: NewsItemJSON) {
+        coordinator?.showNews(with: news)
     }
     
 }

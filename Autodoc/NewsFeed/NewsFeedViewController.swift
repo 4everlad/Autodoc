@@ -20,20 +20,29 @@ class NewsFeedViewController: UIViewController {
     
     private let spacing: CGFloat = 20
     
-    private var viewModel: NewsFeedViewModel = .init()
+    private(set)var viewModel: NewsFeedViewModel?
     private var feedSubscriber: AnyCancellable!
     private var spinnerSubscriber: AnyCancellable!
     
+    init(viewModel: NewsFeedViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+ 
         configureHierarchy()
         configureDataSource()
         setupSpinnerView()
         setSubscribers()
         setupViews()
         
-        viewModel.getNews()
+        viewModel?.getNews()
     }
     
 }
@@ -72,6 +81,7 @@ private extension NewsFeedViewController {
         let nib = UINib(nibName: NewsCell.reuseIdentifier, bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: NewsCell.reuseIdentifier)
         collectionView.delegate = self
+        
         view.addSubview(collectionView)
     }
     
@@ -90,7 +100,7 @@ private extension NewsFeedViewController {
     }
     
     private func setSubscribers() {
-        feedSubscriber = viewModel.$newsFeed
+        feedSubscriber = viewModel?.$newsFeed
            .receive(on: DispatchQueue.main)
            .sink { [weak self] _ in
                self?.updateUI()
@@ -98,6 +108,7 @@ private extension NewsFeedViewController {
     }
     
     private func updateUI() {
+        guard let viewModel = viewModel else { return }
         var snapshot = NSDiffableDataSourceSnapshot<Section, NewsItemJSON>()
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.newsFeed)
@@ -133,6 +144,8 @@ private extension NewsFeedViewController {
 
 extension NewsFeedViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel else { return }
+        
         let item = viewModel.newsFeed[indexPath.row]
         let isItemLast = viewModel.newsFeed.isLast(item)
         
@@ -151,6 +164,14 @@ extension NewsFeedViewController: UICollectionViewDelegate {
                 self?.spinnerView.stopAnimating()
             }
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel else { return }
+        
+        let item = viewModel.newsFeed[indexPath.row]
+        viewModel.showNews(with: item)
+        
     }
 }
 

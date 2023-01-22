@@ -9,4 +9,9 @@ import Foundation
 
 class NewsViewModel {
     
+    private var news: NewsItemJSON?
+    
+    init(with news: NewsItemJSON) {
+        self.news = news
+    }
 }
