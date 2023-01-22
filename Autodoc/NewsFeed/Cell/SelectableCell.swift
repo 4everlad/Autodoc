@@ -1,20 +1,13 @@
 //
-//  NewsFeedCell.swift
+//  SelectableCell.swift
 //  Autodoc
 //
-//  Created by Dmitry Bakulin on 17.01.2023.
+//  Created by Dmitry Bakulin on 21.01.2023.
 //
 
 import UIKit
-import Combine
 
-class NewsCell: UICollectionViewCell {
-    
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var poster: AsyncImageView!
-//    private var animator: UIViewPropertyAnimator?
-    
-    static let reuseIdentifier = "NewsCell"
+class SelectableCell: UICollectionViewCell {
     
     override var isHighlighted: Bool {
         didSet {
@@ -27,15 +20,9 @@ class NewsCell: UICollectionViewCell {
             animateOnSelect(isSeleted: isSelected)
         }
     }
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-    }
-    
-    override public func prepareForReuse() {
-        super.prepareForReuse()
-        poster.cancelLoading()
     }
     
     func animateOnHighlight(isHiglighted: Bool) {

@@ -41,20 +41,27 @@ class NewsFeedViewController: UIViewController {
 private extension NewsFeedViewController {
     
     private func createLayout() -> UICollectionViewLayout {
+        
+        let device = UIDevice.current.userInterfaceIdiom
+        
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(1.0))
+        
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = .init(top: CGFloat(spacing), leading: spacing, bottom: spacing, trailing: spacing)
         
-        let groupSize = NSCollectionLayoutSize(
+          let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalWidth(2/3))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            heightDimension: .fractionalWidth((device == .pad) ? 1/3 : 2/3))
+          let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitem: item,
+            count: (device == .pad) ? 2: 1)
+
+          let section = NSCollectionLayoutSection(group: group)
+          let layout = UICollectionViewCompositionalLayout(section: section)
         
-        let section = NSCollectionLayoutSection(group: group)
-        
-        let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
     
@@ -75,10 +82,7 @@ private extension NewsFeedViewController {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCell.reuseIdentifier, for: indexPath) as? NewsCell else { fatalError("Cannot create the cell") }
             
             // TODO: - refactoring, put it in cell
-            cell.titleLabel.text = "\(identifier.title)"
-            if let url = identifier.titleImageUrl, let newUrl = URL(string: url) {
-                cell.poster.loadImage(newUrl)
-            }
+            cell.set(with: identifier)
                              
             return cell
         }
