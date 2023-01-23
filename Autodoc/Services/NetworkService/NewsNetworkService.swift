@@ -15,7 +15,7 @@ extension NetworkClient: NewsNetworkService {
     func getNewsFeedAsync(pageCount: Int, newsCount: Int) async -> NewsFeedJSON? {
         let endpoint = "news/\(pageCount)/\(newsCount)"
         
-        let result = try await requestAsync(path: endpoint) as Result<NewsFeedJSON, Error>
+        let result = await requestAsync(path: endpoint) as Result<NewsFeedJSON, Error>
         
         switch result {
         case .success(let data):
