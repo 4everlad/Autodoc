@@ -18,7 +18,12 @@ class NewsViewController: UIViewController {
 
     @IBOutlet weak var siteNewsButton: UIButton!
     
-    var viewModel: NewsViewModel
+    private var viewModel: NewsViewModel
+    
+    @IBAction func openSiteTapped(_ sender: Any) {
+        viewModel.openNews()
+    }
+    
     
     init(viewModel: NewsViewModel) {
         self.viewModel = viewModel
@@ -31,11 +36,11 @@ class NewsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setupViews()
         setNews()
     }
     
-    func setNews() {
+    private func setNews() {
         
         Task {
             self.imageView.image = await viewModel.getNewsImage()
@@ -48,15 +53,10 @@ class NewsViewController: UIViewController {
         
     }
 
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+private extension NewsViewController {
+    func setupViews() {
+        self.navigationItem.title = "Новость"
     }
-    */
-
 }

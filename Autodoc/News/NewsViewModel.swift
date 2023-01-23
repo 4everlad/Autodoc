@@ -26,9 +26,14 @@ class NewsViewModel {
             guard let data = result else { return nil }
             return UIImage(data: data as Data)
         } catch {
-            print("no image")
+            print("no image for news")
             return nil
         }
         
+    }
+    
+    func openNews() {
+        guard let url = URL(string: news.fullUrl) else { return }
+        UIApplication.shared.open(url)
     }
 }

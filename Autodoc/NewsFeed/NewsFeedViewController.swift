@@ -118,6 +118,8 @@ private extension NewsFeedViewController {
 
 private extension NewsFeedViewController {
     func setupViews() {
+        self.navigationItem.title = "Новостная лента"
+        
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
