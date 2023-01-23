@@ -24,6 +24,10 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CaV-6i-o96">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="227"/>
+                    <color key="backgroundColor" systemColor="systemYellowColor"/>
+                </view>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZEv-Ly-Y9g">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="227"/>
                 </imageView>
@@ -79,11 +83,15 @@
                 <constraint firstItem="ZEv-Ly-Y9g" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.4" id="H2I-EN-8h2"/>
                 <constraint firstItem="ZEv-Ly-Y9g" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="L0n-4B-TxU"/>
                 <constraint firstItem="V8b-mg-V0H" firstAttribute="top" secondItem="ZEv-Ly-Y9g" secondAttribute="bottom" constant="26" id="LHs-bv-17l"/>
+                <constraint firstItem="CaV-6i-o96" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.4" id="OIJ-fq-3rB"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="CaV-6i-o96" secondAttribute="trailing" id="TjE-MH-dkG"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="V8b-mg-V0H" secondAttribute="trailing" constant="16" id="eOT-SO-JYD"/>
+                <constraint firstItem="CaV-6i-o96" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="hm3-mb-okl"/>
                 <constraint firstItem="ZEv-Ly-Y9g" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="iXs-Ow-b2x"/>
                 <constraint firstItem="dgT-Js-olN" firstAttribute="leading" secondItem="ZEv-Ly-Y9g" secondAttribute="leading" constant="16" id="kTy-O2-AoW"/>
                 <constraint firstItem="dgT-Js-olN" firstAttribute="bottom" secondItem="ZEv-Ly-Y9g" secondAttribute="bottom" constant="-16" id="ldd-bn-84K"/>
                 <constraint firstItem="ZEv-Ly-Y9g" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="nPq-A5-HwJ"/>
+                <constraint firstItem="CaV-6i-o96" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="sKE-oW-OiQ"/>
                 <constraint firstItem="dgT-Js-olN" firstAttribute="top" relation="greaterThanOrEqual" secondItem="ZEv-Ly-Y9g" secondAttribute="top" constant="16" id="xYO-8J-UNB"/>
             </constraints>
             <point key="canvasLocation" x="139" y="87"/>
@@ -92,6 +100,9 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
