@@ -20,6 +20,7 @@ class NewsFeedViewController: UIViewController {
     
     lazy private var spinnerView: UIActivityIndicatorView = {
         let spinnerView = UIActivityIndicatorView()
+        spinnerView.color = .systemRed
         return spinnerView
     }()
     
@@ -43,11 +44,13 @@ class NewsFeedViewController: UIViewController {
  
         configureHierarchy()
         configureDataSource()
+        setupViews()
         setupSpinnerViews()
         setSubscribers()
-        setupViews()
         
-        viewModel?.getNews()
+        viewModel?.getNews {
+            self.spinnerView.stopAnimating()
+        }
     }
     
 }
