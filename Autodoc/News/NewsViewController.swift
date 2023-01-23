@@ -58,5 +58,7 @@ class NewsViewController: UIViewController {
 private extension NewsViewController {
     func setupViews() {
         self.navigationItem.title = "Новость"
+        self.siteNewsButton.tintColor = .systemRed
+        self.navigationController?.navigationBar.tintColor = UIColor.systemRed
     }
 }
