@@ -14,14 +14,20 @@ class NewsFeedViewController: UIViewController {
         case main
     }
     
-    var dataSource: UICollectionViewDiffableDataSource<Section, NewsItem>!
-    var collectionView: UICollectionView!
-    var rowSpinnerView: InfiniteScrollActivityView!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, NewsItem>!
+    private var collectionView: UICollectionView!
+    private var rowSpinnerView: InfiniteScrollActivityView!
+    
+    lazy private var spinnerView: UIActivityIndicatorView = {
+        let spinnerView = UIActivityIndicatorView()
+        return spinnerView
+    }()
     
     private let spacing: CGFloat = 20
+    private let size: CGFloat = 45
     
     private(set)var viewModel: NewsFeedViewModel?
-    private var feedSubscriber: AnyCancellable!
+    private var feedSubscriber: AnyCancellable?
     
     init(viewModel: NewsFeedViewModel) {
         self.viewModel = viewModel
@@ -37,7 +43,7 @@ class NewsFeedViewController: UIViewController {
  
         configureHierarchy()
         configureDataSource()
-        setupSpinnerView()
+        setupSpinnerViews()
         setSubscribers()
         setupViews()
         
@@ -127,7 +133,7 @@ private extension NewsFeedViewController {
         ])
     }
     
-    func setupSpinnerView() {
+    func setupSpinnerViews() {
         // Set up Infinite Scroll loading indicator
         let frame = CGRect(x: 0,
                            y: collectionView.contentSize.height,
@@ -140,6 +146,18 @@ private extension NewsFeedViewController {
         var insets = collectionView.contentInset
         insets.bottom += InfiniteScrollActivityView.defaultHeight
         collectionView.contentInset = insets
+        
+        view.addSubview(spinnerView)
+        spinnerView.startAnimating()
+        spinnerView.hidesWhenStopped = true
+        
+        NSLayoutConstraint.activate([
+            spinnerView.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
+            spinnerView.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor),
+            
+            spinnerView.widthAnchor.constraint(equalToConstant: size),
+            spinnerView.heightAnchor.constraint(equalToConstant: size)
+        ])
     }
 }
 
