@@ -22,7 +22,6 @@ class NewsFeedViewController: UIViewController {
     
     private(set)var viewModel: NewsFeedViewModel?
     private var feedSubscriber: AnyCancellable!
-    private var spinnerSubscriber: AnyCancellable!
     
     init(viewModel: NewsFeedViewModel) {
         self.viewModel = viewModel
