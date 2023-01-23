@@ -8,6 +8,12 @@
 import Foundation
 import Combine
 
+struct Pagination {
+    var itemsCount: Int = 15
+    var page: Int = 1
+    var totalItems: Int = .max
+}
+
 class NewsFeedViewModel: ObservableObject {
     
     weak var coordinator : AppCoordinator?
@@ -16,9 +22,7 @@ class NewsFeedViewModel: ObservableObject {
     @Published private(set) var newsFeed: [NewsItem] = []
     var canLoad = true
     
-    private(set) var pageNewsCount: Int = 15
-    private(set) var page: Int = 1
-    private(set) var totalNewsItems: Int = .max
+    var pagination = Pagination()
     
     init() {
         getNews(completion: nil)
@@ -26,7 +30,7 @@ class NewsFeedViewModel: ObservableObject {
     
     func getNews(completion: (() -> Void)? = nil) {
         
-        guard newsFeed.count <= totalNewsItems else { return }
+        guard newsFeed.count <= pagination.totalItems else { return }
         guard canLoad == true else { return }
         
         Task() {
@@ -34,7 +38,7 @@ class NewsFeedViewModel: ObservableObject {
                 
                 self.canLoad = false
                 
-                let result = await networkClient.getNewsFeedAsync(pageCount: page, newsCount: pageNewsCount)
+                let result = await networkClient.getNewsFeedAsync(pageCount: pagination.page, newsCount: pagination.itemsCount)
                 
                 guard let feed = result else {
                     self.canLoad = true
@@ -51,8 +55,8 @@ class NewsFeedViewModel: ObservableObject {
                     self.newsFeed.append(contentsOf: newsItems)
                 }
                 
-                page += 1
-                totalNewsItems = feed.totalCount
+                pagination.page += 1
+                pagination.totalItems = feed.totalCount
                 self.canLoad = true
                 completion?()
                 
