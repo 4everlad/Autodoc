@@ -16,7 +16,7 @@ class NewsFeedViewController: UIViewController {
     
     var dataSource: UICollectionViewDiffableDataSource<Section, NewsItem>!
     var collectionView: UICollectionView!
-    var spinnerView: InfiniteScrollActivityView!
+    var rowSpinnerView: InfiniteScrollActivityView!
     
     private let spacing: CGFloat = 20
     
@@ -133,9 +133,9 @@ private extension NewsFeedViewController {
                            y: collectionView.contentSize.height,
                            width: collectionView.bounds.size.width,
                            height: InfiniteScrollActivityView.defaultHeight)
-        spinnerView = InfiniteScrollActivityView(frame: frame)
-        spinnerView.isHidden = true
-        collectionView.addSubview(spinnerView)
+        rowSpinnerView = InfiniteScrollActivityView(frame: frame)
+        rowSpinnerView.isHidden = true
+        collectionView.addSubview(rowSpinnerView)
         
         var insets = collectionView.contentInset
         insets.bottom += InfiniteScrollActivityView.defaultHeight
@@ -157,12 +157,12 @@ extension NewsFeedViewController: UICollectionViewDelegate {
                                width: collectionView.bounds.size.width,
                                height: InfiniteScrollActivityView.defaultHeight)
             
-            spinnerView.frame = frame
-            spinnerView.startAnimating()
+            rowSpinnerView.frame = frame
+            rowSpinnerView.startAnimating()
             
             // TODO: - check if not weak
             viewModel.getNews { [weak self] in
-                self?.spinnerView.stopAnimating()
+                self?.rowSpinnerView.stopAnimating()
             }
         }
     }
