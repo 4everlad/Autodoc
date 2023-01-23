@@ -51,36 +51,3 @@ public class AsyncImageView: UIImageView {
         loadingService.cancelLoading()
     }
 }
-
-final class ImageLoadingService {
-    private let session = URLSession(configuration: .default)
-    private var dataTask: Task<Data, Error>?
-    
-    func loadImage(url: URL) async throws -> Data? {
-        let newUrl = url as NSURL
-        if let data = Cache.images.object(forKey: newUrl) {
-            return data as Data
-        } else {
-            dataTask = Task {
-                let(data, _) = try await session.data(from: url, delegate: nil)
-                Cache.images.setObject(data as NSData, forKey: url as NSURL)
-                return data
-            }
-            
-            return try await dataTask?.value
-        }
-    }
-    
-    func cancelLoading() {
-        dataTask?.cancel()
-    }
-}
-
-final class Cache {
-    static let images: NSCache<NSURL, NSData> = {
-        let cache = NSCache<NSURL, NSData>()
-        cache.countLimit = 100 // items limit
-        cache.totalCostLimit = 1024 * 1024 * 100 // memory limit
-        return cache
-    }()
-}

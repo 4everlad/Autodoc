@@ -11,11 +11,17 @@ struct NewsItem: Identifiable, Hashable {
     let id: Int
     let title: String
     let description: String
-    let publishedDate: String
+    var publishedDate: Date
     let url: String
     let fullUrl: String
     let titleImageUrl: String?
     let categoryType: String
+    
+    var publishedDateStr: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy.MM.dd"
+        return dateFormatter.string(from: publishedDate)
+    }
     
     init(with json: NewsItemJSON) {
         self.id = json.id

@@ -49,7 +49,7 @@ private extension NoImageView {
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             imageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: size),
+            imageView.widthAnchor.constraint(equalToConstant: size * 1.3),
             imageView.heightAnchor.constraint(equalToConstant: size),
         ])
     }

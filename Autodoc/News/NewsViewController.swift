@@ -32,7 +32,20 @@ class NewsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        setNews()
+    }
+    
+    func setNews() {
+        
+        Task {
+            self.imageView.image = await viewModel.getNewsImage()
+        }
+        
+        self.dateLabel.text = viewModel.news.publishedDateStr
+        self.titleLabel.text = viewModel.news.title
+        self.newsTypeLabel.text = viewModel.news.categoryType
+        self.descriptionLabel.text = viewModel.news.description
+        
     }
 
 

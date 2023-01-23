@@ -39,7 +39,7 @@ class NetworkClient {
             
             guard httpResponse.statusCode == 200 else {
                 if let json = String(data: data, encoding: .utf8) {
-                    return .failure(CustomError(message: json))
+                    return .failure(CustomError(message: "Error code: \(httpResponse.statusCode) Description: \(json)"))
                 } else {
                     return .failure(CustomError(message: "Error code \(httpResponse.statusCode)"))
                 }
