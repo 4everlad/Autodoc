@@ -22,7 +22,11 @@ public class AsyncImageView: UIImageView {
                     completion?(false)
                     return
                 }
-                self.image = UIImage(data: data as Data)
+                
+                let image = UIImage(data: data as Data)
+                DispatchQueue.main.async {
+                    self.image = image
+                }
                 completion?(true)
             }
             catch {
