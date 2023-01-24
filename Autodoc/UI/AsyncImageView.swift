@@ -43,7 +43,12 @@ public class AsyncImageView: UIImageView {
                 guard let data = result else {
                     return
                 }
-                self.image = UIImage(data: data as Data)
+                
+                let image = UIImage(data: data as Data)
+                DispatchQueue.main.async {
+                    self.image = image
+                }
+                
             }
             catch {
                 print("async load image error")
