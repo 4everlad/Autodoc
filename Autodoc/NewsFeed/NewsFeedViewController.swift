@@ -137,7 +137,6 @@ private extension NewsFeedViewController {
     }
     
     func setupSpinnerViews() {
-        // Set up Infinite Scroll loading indicator
         let frame = CGRect(x: 0,
                            y: collectionView.contentSize.height,
                            width: collectionView.bounds.size.width,
@@ -181,7 +180,6 @@ extension NewsFeedViewController: UICollectionViewDelegate {
             rowSpinnerView.frame = frame
             rowSpinnerView.startAnimating()
             
-            // TODO: - check if not weak
             viewModel.getNews { [weak self] in
                 self?.rowSpinnerView.stopAnimating()
             }

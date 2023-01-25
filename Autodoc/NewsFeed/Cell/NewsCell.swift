@@ -26,11 +26,11 @@ final class NewsCell: SelectableCell {
         imageView.isHidden = true
         noImageView.isHidden = false
         
-        guard let url = news.titleImageUrl, let newUrl = URL(string: url) else {
+        guard let url = news.titleImageUrl else {
             return
         }
         
-        imageView.loadImage(newUrl) { [weak self] result in
+        imageView.loadImage(url) { [weak self] result in
             self?.setImageVisibility(isDownloaded: result)
         }
     }

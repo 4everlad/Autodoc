@@ -12,9 +12,9 @@ struct NewsItemJSON: Codable {
     let title: String
     let description: String
     let publishedDateStr: String
-    let url: String
-    let fullUrl: String
-    let titleImageUrl: String?
+    let urlStr: String
+    let fullUrlStr: String
+    let titleImageUrlStr: String?
     let categoryType: String
     
     var publishedDate: Date {
@@ -23,14 +23,27 @@ struct NewsItemJSON: Codable {
         return dateFormatter.date(from: publishedDateStr) ?? Date()
     }
     
+    var url: URL? {
+        return URL(string: urlStr)
+    }
+    
+    var fullUrl: URL? {
+        return URL(string: fullUrlStr)
+    }
+    
+    var titleImageUrl: URL? {
+        guard let titleImageUrlStr = titleImageUrlStr else { return nil }
+        return URL(string: titleImageUrlStr)
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id,
              title,
              description,
              publishedDateStr = "publishedDate",
-             url,
-             fullUrl,
-             titleImageUrl = "titleImageUrl",
+             urlStr = "url",
+             fullUrlStr = "fullUrl",
+             titleImageUrlStr = "titleImageUrl",
              categoryType
     }
     

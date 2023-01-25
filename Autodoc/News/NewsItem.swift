@@ -12,9 +12,9 @@ struct NewsItem: Identifiable, Hashable {
     let title: String
     let description: String
     var publishedDate: Date
-    let url: String
-    let fullUrl: String
-    let titleImageUrl: String?
+    let url: URL?
+    let fullUrl: URL?
+    let titleImageUrl: URL?
     let categoryType: String
     
     var publishedDateStr: String {

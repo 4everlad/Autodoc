@@ -18,8 +18,7 @@ class NewsViewModel {
     }
     
     func getNewsImage() async -> UIImage? {
-        guard let imageStr = news.titleImageUrl,
-                let url = URL(string: imageStr) else { return nil }
+        guard let url = news.titleImageUrl else { return nil }
         
         do {
             let result = try await loadingService.loadImage(url: url)
@@ -33,7 +32,7 @@ class NewsViewModel {
     }
     
     func openNews() {
-        guard let url = URL(string: news.fullUrl) else { return }
+        guard let url = news.fullUrl else { return }
         UIApplication.shared.open(url)
     }
 }
