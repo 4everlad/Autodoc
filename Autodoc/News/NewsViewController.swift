@@ -42,8 +42,11 @@ class NewsViewController: UIViewController {
     
     private func setNews() {
         
-        Task {
-            self.imageView.image = await viewModel.getNewsImage()
+        Task(priority: .utility) {
+            guard let image = await viewModel.getNewsImage() else { return }
+            DispatchQueue.main.async {
+                self.imageView.image = image
+            }
         }
         
         self.dateLabel.text = viewModel.news.publishedDateStr

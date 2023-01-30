@@ -16,6 +16,7 @@ struct NewsItem: Identifiable, Hashable {
     let fullUrl: URL?
     let titleImageUrl: URL?
     let categoryType: String
+    var isSelected = false
     
     var publishedDateStr: String {
         let dateFormatter = DateFormatter()

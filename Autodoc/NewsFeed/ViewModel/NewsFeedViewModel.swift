@@ -24,10 +24,6 @@ class NewsFeedViewModel: ObservableObject {
     
     var pagination = Pagination()
     
-    init() {
-        getNews(completion: nil)
-    }
-    
     func getNews(completion: (() -> Void)? = nil) {
         
         guard newsFeed.count <= pagination.totalItems else {
@@ -37,7 +33,7 @@ class NewsFeedViewModel: ObservableObject {
             completion?()
             return }
         
-        Task() {
+        Task(priority: .utility) {
             
             self.canLoad = false
             
@@ -67,6 +63,11 @@ class NewsFeedViewModel: ObservableObject {
     }
     
     func showNews(with news: NewsItem) {
+        guard let idx = newsFeed.firstIndex(where: { $0 == news }) else {
+            return
+        }
+        
+        newsFeed[idx].isSelected = true
         coordinator?.showNews(with: news)
     }
     

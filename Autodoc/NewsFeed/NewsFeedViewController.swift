@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class NewsFeedViewController: UIViewController {
+final class NewsFeedViewController: UIViewController {
     
     enum Section {
         case main
@@ -48,8 +48,10 @@ class NewsFeedViewController: UIViewController {
         setupSpinnerViews()
         setSubscribers()
         
-        viewModel?.getNews {
-            self.spinnerView.stopAnimating()
+        viewModel?.getNews { [weak self] in
+            DispatchQueue.main.async {
+                self?.spinnerView.stopAnimating()
+            }
         }
     }
     
@@ -188,10 +190,13 @@ extension NewsFeedViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let viewModel = viewModel else { return }
+        guard let cell = collectionView.cellForItem(at: indexPath) as? NewsCell else { return }
         
         let item = viewModel.newsFeed[indexPath.row]
-        viewModel.showNews(with: item)
         
+        cell.animateOnSelect(completion: {
+            viewModel.showNews(with: item)
+        })
     }
 }
 

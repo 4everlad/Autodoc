@@ -25,6 +25,7 @@ final class NewsCell: SelectableCell {
         titleLabel.text = news.title
         imageView.isHidden = true
         noImageView.isHidden = false
+        self.isSelected = news.isSelected
         
         guard let url = news.titleImageUrl else {
             return
@@ -33,6 +34,7 @@ final class NewsCell: SelectableCell {
         imageView.loadImage(url) { [weak self] result in
             self?.setImageVisibility(isDownloaded: result)
         }
+        
     }
     
     func setImageVisibility(isDownloaded: Bool) {

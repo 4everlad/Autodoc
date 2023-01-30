@@ -17,7 +17,7 @@ class SelectableCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            animateOnSelect(isSeleted: isSelected)
+            self.alpha = self.isSelected ? 0.5 : 1
         }
     }
     
@@ -26,15 +26,22 @@ class SelectableCell: UICollectionViewCell {
     }
     
     func animateOnHighlight(isHiglighted: Bool) {
-        UIView.animate(withDuration: 0.3, delay: 0, options: .beginFromCurrentState, animations: {
+        UIView.animate(withDuration: 0.2, delay: 0, options: .beginFromCurrentState, animations: {
             self.transform = self.isHighlighted ? CGAffineTransform(scaleX: 0.90, y: 0.90) : .identity
         })
     }
     
-    func animateOnSelect(isSeleted: Bool) {
-        UIView.animate(withDuration: 0.3, delay: 0, options: .beginFromCurrentState, animations: {
-            self.alpha = self.isSelected ? 0.5 : 1
+    func animateOnSelect(completion: (() -> Void)? = nil) {
+        UIView.animate(withDuration: 0.2, delay: 0, options: .beginFromCurrentState, animations: {
+            self.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.2, delay: 0, options: .beginFromCurrentState, animations: {
+                self.transform = .identity
+            }, completion: { _ in
+                completion?()
+            })
         })
+        
     }
     
 }

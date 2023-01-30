@@ -36,23 +36,23 @@ public class AsyncImageView: UIImageView {
         }
     }
     
-    public func loadImageASync(_ url: URL) {
-        Task {
-            do {
-                let result = try await loadingService.loadImage(url: url)
-                guard let data = result else {
-                    return
-                }
-                
-                let image = UIImage(data: data as Data)
-                DispatchQueue.main.async {
-                    self.image = image
-                }
-                
+    public func loadImageAsync(_ url: URL) async -> Bool {
+        do {
+            let result = try await loadingService.loadImage(url: url)
+            guard let data = result else {
+                return false
             }
-            catch {
-                print("async load image error")
+            
+            let image = UIImage(data: data as Data)
+            DispatchQueue.main.async {
+                self.image = image
             }
+            
+            return true
+        }
+        catch {
+            print("async load image error")
+            return false
         }
     }
     
