@@ -48,11 +48,13 @@ final class NewsFeedViewController: UIViewController {
         setupSpinnerViews()
         setSubscribers()
         
-        viewModel?.getNews { [weak self] in
+        Task {
+            let _ = await viewModel?.getNewsAsync()
             DispatchQueue.main.async {
-                self?.spinnerView.stopAnimating()
+                self.spinnerView.stopAnimating()
             }
         }
+
     }
     
 }
@@ -182,8 +184,9 @@ extension NewsFeedViewController: UICollectionViewDelegate {
             rowSpinnerView.frame = frame
             rowSpinnerView.startAnimating()
             
-            viewModel.getNews { [weak self] in
-                self?.rowSpinnerView.stopAnimating()
+            Task {
+                let _ = await viewModel.getNewsAsync()
+                self.rowSpinnerView.stopAnimating()
             }
         }
     }

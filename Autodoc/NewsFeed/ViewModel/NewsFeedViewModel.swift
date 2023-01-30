@@ -24,14 +24,10 @@ class NewsFeedViewModel: ObservableObject {
     
     var pagination = Pagination()
     
-    func getNews(completion: (() -> Void)? = nil) {
+    func getNewsAsync() async {
         
-        guard newsFeed.count <= pagination.totalItems else {
-            completion?()
-            return }
-        guard canLoad == true else {
-            completion?()
-            return }
+        guard newsFeed.count <= pagination.totalItems else { return }
+        guard canLoad == true else { return }
         
         Task(priority: .utility) {
             
@@ -41,7 +37,6 @@ class NewsFeedViewModel: ObservableObject {
             
             guard let feed = result else {
                 self.canLoad = true
-                completion?()
                 return
             }
             
@@ -57,7 +52,6 @@ class NewsFeedViewModel: ObservableObject {
             pagination.page += 1
             pagination.totalItems = feed.totalCount
             self.canLoad = true
-            completion?()
         }
         
     }
