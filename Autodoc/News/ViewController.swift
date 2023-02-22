@@ -16,6 +16,12 @@ class ViewController: UIViewController {
         return noImageView
     }()
     
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     private lazy var imageStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews:
         [titleLabel, dateLabel])
@@ -38,7 +44,7 @@ class ViewController: UIViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
         label.textColor = .white
         label.text = "Title"
         label.numberOfLines = 0
@@ -74,7 +80,6 @@ class ViewController: UIViewController {
     
     private let siteNewsButton: UIButton = {
         let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Посмотреть на сайте", for: .normal)
         button.tintColor = .systemRed
         return button
@@ -95,6 +100,28 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         setupViews()
+        setupActions()
+        setNews()
+    }
+    
+    @objc func openSiteTapped(sender: UIButton) {
+        viewModel.openNews()
+    }
+    
+    private func setNews() {
+
+        Task(priority: .utility) {
+            guard let image = await viewModel.getNewsImage() else { return }
+            DispatchQueue.main.async {
+                self.imageView.image = image
+            }
+        }
+
+        self.dateLabel.text = viewModel.news.publishedDateStr
+        self.titleLabel.text = viewModel.news.title
+        self.newsTypeLabel.text = viewModel.news.categoryType
+        self.descriptionLabel.text = viewModel.news.description
+
     }
 
 }
@@ -103,10 +130,11 @@ private extension ViewController {
     
     func setupViews() {
         view.addSubview(noImageView)
-        noImageView.addSubview(imageStackView)
+        noImageView.addSubview(imageView)
+        imageView.addSubview(imageStackView)
         view.addSubview(newsStackView)
         
-        setupNoImageView()
+        setupImageView()
         setupImageStackView()
         setupNewsStackView()
         
@@ -115,7 +143,11 @@ private extension ViewController {
         self.view.backgroundColor = .white
     }
     
-    func setupNoImageView() {
+    func setupActions() {
+        siteNewsButton.addTarget(self, action: #selector(openSiteTapped), for: .touchUpInside)
+    }
+    
+    func setupImageView() {
         let guide = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
@@ -123,16 +155,20 @@ private extension ViewController {
             noImageView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
             noImageView.topAnchor.constraint(equalTo: guide.topAnchor),
             noImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/3),
+            
+            imageView.leadingAnchor.constraint(equalTo: noImageView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: noImageView.trailingAnchor),
+            imageView.topAnchor.constraint(equalTo: noImageView.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: noImageView.bottomAnchor)
         ])
     }
     
     func setupImageStackView() {
-        
         NSLayoutConstraint.activate([
-            imageStackView.leadingAnchor.constraint(equalTo: noImageView.leadingAnchor, constant: 16),
-            imageStackView.trailingAnchor.constraint(equalTo: noImageView.trailingAnchor, constant: -16),
-            imageStackView.bottomAnchor.constraint(equalTo: noImageView.bottomAnchor, constant: -16),
-            imageStackView.topAnchor.constraint(greaterThanOrEqualTo: noImageView.topAnchor, constant: 16)
+            imageStackView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 16),
+            imageStackView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -16),
+            imageStackView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -16),
+            imageStackView.topAnchor.constraint(greaterThanOrEqualTo: imageView.topAnchor, constant: 16)
         ])
     }
     
