@@ -30,7 +30,7 @@ class AppCoordinator: Coordinator {
     
     func showNews(with news: NewsItem) {
         let viewModel = NewsViewModel(with: news)
-        let viewController = ViewController(viewModel: viewModel)
+        let viewController = NewsViewController(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: true)
     }
 }
